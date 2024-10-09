@@ -1,0 +1,11 @@
+---
+- hosts: web
+  remote_user: ubuntu
+  become: yes
+
+  vars_prompt:
+    - name: username
+      prompt: What is your username?
+      private: false
+  roles:
+   - web    

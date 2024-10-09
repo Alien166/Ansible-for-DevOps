@@ -1,0 +1,37 @@
+- name: apt update
+  apt:
+    update_cache: yes
+  when: ansible_facts['os_family'] =="redhat" 
+
+- name: install nginx
+  apt:
+    name: nginx
+    state: present
+
+- name: create directory
+  file:
+    path: "{{ dir_name }}"
+    state: directory
+
+- name: list directory
+  command: " ls {{ dir_name }} "
+  register: results
+
+- name: print stdout
+  debug:
+    var: results.stdout
+
+- name: copy template 
+  template:
+    src: myconfig
+    dest: myc
+  notify: restart nginx   
+
+
+- name: create users
+  user:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - ahmed
+    - mohamed  
